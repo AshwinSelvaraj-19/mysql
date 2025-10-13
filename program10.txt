@@ -1,0 +1,25 @@
+CREATE TABLE Project (
+ proj_id NUMBER PRIMARY KEY,
+ proj_name VARCHAR2(30),
+ location VARCHAR2(20)
+);
+CREATE TABLE Task (
+ task_id NUMBER,
+ proj_id NUMBER,
+ task_name VARCHAR2(30)
+);
+INSERT INTO Project VALUES (1, 'Banking System', 'Chennai');
+INSERT INTO Project VALUES (2, 'E-Commerce App', 'Bangalore');
+INSERT INTO Project VALUES (3, 'ERP Software', 'Chennai');
+INSERT INTO Project VALUES (4, 'Hospital Mgmt', 'Mumbai');
+INSERT INTO Task VALUES (201, 1, 'Design');
+INSERT INTO Task VALUES (202, 2, 'Testing');
+INSERT INTO Task VALUES (203, 3, 'Development');
+INSERT INTO Task VALUES (204, 5, 'Deployment');
+COMMIT;
+SELECT proj_id FROM Project
+UNION
+SELECT proj_id FROM Task;
+SELECT proj_id FROM Project
+MINUS
+SELECT proj_id FROM Task;

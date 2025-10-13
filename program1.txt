@@ -1,0 +1,34 @@
+CREATE TABLE Student( 
+RollNo int PRIMARY KEY, 
+Name VARCHAR(100), 
+Gender VARCHAR(20), 
+Subject VARCHAR(30), 
+Marks int(3) 
+); 
+desc Student; 
+INSERT INTO Student VALUES (1,'Vaibhav','M','Mathematics',100); 
+INSERT INTO Student VALUES (2,'Vishal','M','Physics',79); 
+INSERT INTO Student VALUES (3,'Saumya','F','Chemistry',95); 
+INSERT INTO Student VALUES (4,'Arun','M','English',78); 
+INSERT INTO Student VALUES (5,'Anjum','F','Hindi',83); 
+INSERT INTO Student VALUES (6,'Radhika','F','Biology',57); 
+INSERT INTO Student VALUES (7,'Harpreet','F','Physical Education',68); 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+ADD (State VARCHAR(50),Phone int ); 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+MODIFY COLUMN Marks VARCHAR(3); 
+ALTER TABLE Student 
+RENAME COLUMN RollNo To EnrollmentNo; 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+DROP COLUMN Marks; 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+RENAME To Student_info; 
+TRUNCATE TABLE Student_info; 
+desc Student_info; 
+SELECT*FROM Student; 
+DROP TABLE Student_info; 
+desc Student_info;

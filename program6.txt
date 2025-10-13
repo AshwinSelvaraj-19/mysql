@@ -1,0 +1,25 @@
+CREATE TABLE Employee (
+ EmpID NUMBER PRIMARY KEY,
+ EmpName VARCHAR2(50),
+ Salary NUMBER(10,2)
+);
+CREATE OR REPLACE PROCEDURE addemployee (
+ p_id IN NUMBER,
+ p_name IN VARCHAR2,
+ p_salary IN NUMBER
+) AS
+BEGIN
+ INSERT INTO Employee (EmpID, EmpName, Salary)
+ VALUES (p_id, p_name, p_salary);
+END;
+/
+CREATE OR REPLACE FUNCTION annualsalary(p_salary IN NUMBER) RETURN NUMBER AS
+BEGIN
+ RETURN p_salary * 12;
+END;
+/
+EXEC addemployee(1, 'John', 25000);
+EXEC addemployee(2, 'Mary', 30000);
+SELECT * FROM Employee;
+SELECT EmpName, Salary, annualsalary(Salary) AS Annual_Salary
+FROM Employee;

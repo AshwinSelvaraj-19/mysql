@@ -1,0 +1,18 @@
+CREATE TABLE Subject (
+SubjectID INT PRIMARY KEY,
+SubjectName VARCHAR2(50)
+);
+CREATE TABLE Question (
+QuestionID INT PRIMARY KEY,
+QuestionText VARCHAR2(255),
+SubjectID INT,
+FOREIGN KEY (SubjectID) REFERENCES Subject(SubjectID)
+);
+INSERT INTO Subject VALUES (1, 'DBMS');
+INSERT INTO Subject VALUES (2, 'Java');
+INSERT INTO Question VALUES (101, 'What is RDBMS?', 1);
+INSERT INTO Question VALUES (102, 'Explain Primary Key', 1);
+INSERT INTO Question VALUES (201, 'Explain OOP concepts', 2);
+SELECT q.QuestionID, q.QuestionText, s.SubjectName
+FROM Question q
+JOIN Subject s ON q.SubjectID = s.SubjectID;

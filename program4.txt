@@ -1,0 +1,25 @@
+Create table electricity(cons_id varchar(4) primary key,c_name varchar(20),rent number(2) check
+(rent=20),unit number(6));
+insert into electricity values('E001','deepika',20,35);
+insert into electricity values('E002','varna',20,61);
+insert into electricity values('E003','arun',20,80);
+insert into electricity values('E004','rahul',20,90);
+alter table electricity add(total number(6,2));
+declare
+v_total electricity.total%type;
+cursor c is Select*from electricity;
+begin
+for I in c loop
+if(i.unit<=40) then
+v_total:=i.rent;
+elsif (i.unit<=80) then
+v_total:=i.rent+(i.unit-40)*0.40;
+else
+v_total:=i.rent+(40*.40)+(i.unit-80)*1.40;
+end if;
+update electricity
+set total = v_total
+where cons_id = i.cons_id;
+end loop;
+end;
+/

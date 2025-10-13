@@ -1,0 +1,25 @@
+SET SERVEROUTPUT ON;
+DECLARE
+ num1 NUMBER := 20;
+ num2 NUMBER := 10;
+ sum_result NUMBER;
+ diff_result NUMBER;
+ mul_result NUMBER;
+ div_result NUMBER;
+BEGIN
+ sum_result := num1 + num2;
+ diff_result := num1 - num2;
+ mul_result := num1 * num2;
+ IF num2 != 0 THEN
+ div_result := num1 / num2;
+ ELSE
+ div_result := NULL;
+ END IF;
+ DBMS_OUTPUT.PUT_LINE('Number 1: ' || num1);
+ DBMS_OUTPUT.PUT_LINE('Number 2: ' || num2);
+ DBMS_OUTPUT.PUT_LINE('Addition: ' || sum_result);
+ DBMS_OUTPUT.PUT_LINE('Subtraction: ' || diff_result);
+ DBMS_OUTPUT.PUT_LINE('Multiplication: ' || mul_result);
+ DBMS_OUTPUT.PUT_LINE('Division: ' || div_result);
+END;
+/

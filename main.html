@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Calculator</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Inter","Segoe UI",sans-serif;}
+  html,body{height:100%;}
+  body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#ffffff;
+    padding:20px;
+  }
+
+  .calculator{
+    width:360px;
+    background:#f3f4f6;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.1);
+    padding:20px;
+  }
+
+  .display{
+    height:72px;
+    border-radius:10px;
+    background:#111827;
+    color:#d1fae5;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    padding:0 16px;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+
+  .keys{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+  }
+
+  .key{
+    padding:18px 0;
+    font-size:20px;
+    font-weight:700;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 6px 14px rgba(0,0,0,0.06);
+    transition:transform .12s ease, box-shadow .12s ease;
+    background:#e5e7eb;
+    color:#111827;
+  }
+  .key.op{
+    background:#111827;
+    color:#f9fafb;
+  }
+  .key:active{
+    transform:translateY(2px) scale(.996);
+    box-shadow:0 3px 8px rgba(0,0,0,0.06);
+  }
+</style>
+</head>
+<body>
+<div class="calculator" role="application" aria-label="Calculator Copier">
+  <div class="display" id="display">0</div>
+
+  <div class="keys" id="keys">
+    <button class="key" data-key="7">7</button>
+    <button class="key" data-key="8">8</button>
+    <button class="key" data-key="9">9</button>
+    <button class="key op" data-op="/">÷</button>
+
+    <button class="key" data-key="4">4</button>
+    <button class="key" data-key="5">5</button>
+    <button class="key" data-key="6">6</button>
+    <button class="key op" data-op="*">×</button>
+
+    <button class="key" data-key="1">1</button>
+    <button class="key" data-key="2">2</button>
+    <button class="key" data-key="3">3</button>
+    <button class="key op" data-op="-">−</button>
+
+    <button class="key" data-key="0">0</button>
+    <button class="key" data-key=".">.</button>
+    <button class="key op" data-op="C">C</button>
+    <button class="key op" data-op="+">+</button>
+
+    <button class="key op" style="grid-column: span 4;" data-op="=">=</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById('display');
+
+  // Map numbers to program files
+  const programMap = {
+    "1": "program1.txt",
+    "2": "program2.txt",
+    "3": "program3.txt",
+    "4": "program4.txt",
+    "5": "program5.txt",
+    "6": "program6.txt",
+    "7": "program7.txt",
+    "8": "program8.txt",
+    "9": "program9.txt",
+    "0": "program10.txt",
+    ".": "program11.txt"
+
+  };
+
+  let inputBuffer = "";
+  let currentOperator = null;
+  let previousValue = null;
+  let resetNext = false;
+
+  async function copyProgram(code){
+    const file = programMap[code];
+    if(!file) return;
+    try{
+      const res = await fetch(file);
+      if(!res.ok) throw new Error("File not found");
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+    }catch(err){
+      console.error(err);
+    }
+  }
+
+  function pressKey(key){
+    if(resetNext){
+      inputBuffer = "";
+      resetNext = false;
+    }
+
+    if(inputBuffer === "0") inputBuffer = key;
+    else inputBuffer += key;
+
+    display.textContent = inputBuffer;
+    copyProgram(key);
+  }
+
+  function operate(op){
+    if(op === "C"){
+      inputBuffer = "";
+      previousValue = null;
+      currentOperator = null;
+      display.textContent = "0";
+      return;
+    }
+
+    if(op === "="){
+      if(currentOperator && previousValue !== null){
+        try{
+          const result = eval(`${previousValue}${currentOperator}${inputBuffer}`);
+          display.textContent = result;
+          inputBuffer = result.toString();
+          previousValue = null;
+          currentOperator = null;
+          resetNext = true;
+        }catch(e){
+          display.textContent = "Error";
+          inputBuffer = "";
+        }
+      }
+      return;
+    }
+
+    // Handle operator press
+    if(inputBuffer){
+      if(previousValue === null){
+        previousValue = inputBuffer;
+      }else if(currentOperator){
+        try{
+          const result = eval(`${previousValue}${currentOperator}${inputBuffer}`);
+          previousValue = result;
+          display.textContent = result;
+        }catch(e){
+          display.textContent = "Error";
+        }
+      }
+    }
+    currentOperator = op;
+    inputBuffer = "";
+  }
+
+  document.getElementById('keys').addEventListener('click',(ev)=>{
+    const btn = ev.target.closest('button');
+    if(!btn) return;
+    const key = btn.getAttribute('data-key');
+    const op = btn.getAttribute('data-op');
+
+    if(key !== null) pressKey(key);
+    else if(op !== null) operate(op);
+  });
+
+  window.addEventListener('keydown',(ev)=>{
+    const key = ev.key;
+    if(key in programMap){
+      ev.preventDefault();
+      pressKey(key);
+    }else if(["+","-","*","/","Enter","=","c","C"].includes(key)){
+      ev.preventDefault();
+      operate(key === "Enter" ? "=" : key.toUpperCase());
+    }else if(key === "."){
+      pressKey(".");
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+PROGRAM 2:
+CREATE TABLE Customer (
+  CustomerID INT PRIMARY KEY,
+  CustomerName VARCHAR(50),
+  LastName VARCHAR(50),
+  Country VARCHAR(50),
+  Age INT,
+  Phone VARCHAR(15)
+);
+INSERT INTO Customer VALUES (1, 'Shubham', 'Thakur', 'India', 23, '9865812670');
+INSERT INTO Customer VALUES (2, 'Aman', 'Chopra', 'Australia', 21, '8164439420');
+INSERT INTO Customer VALUES (3, 'Naveen', 'Tulasi', 'Srilanka', 24, '9130264875');
+INSERT INTO Customer VALUES (4, 'Aditya', 'Arpan', 'Austria', 21, '9510236478');
+INSERT INTO Customer VALUES (5, 'Nishant', 'Jain', 'Spain', 22, '9632587011');
+SELECT * FROM Customer;
+UPDATE Customer
+SET CustomerName = 'Nitin'
+WHERE Age = 22;
+UPDATE Customer
+SET CustomerName = 'Satyam',
+    Country = 'USA'
+WHERE CustomerID = 1;
+DELETE FROM Customer
+WHERE CustomerName = 'Naveen';
+SELECT * FROM Customer;
