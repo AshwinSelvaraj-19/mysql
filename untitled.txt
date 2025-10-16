@@ -1,41 +1,48 @@
 #1
-CREATE TABLE Student( 
-RollNo int PRIMARY KEY, 
-Name VARCHAR(100), 
-Gender VARCHAR(20), 
-Subject VARCHAR(30), 
-Marks int(3) 
-); 
-desc Student; 
-INSERT INTO Student VALUES (1,'Vaibhav','M','Mathematics',100); 
-INSERT INTO Student VALUES (2,'Vishal','M','Physics',79); 
-INSERT INTO Student VALUES (3,'Saumya','F','Chemistry',95); 
-INSERT INTO Student VALUES (4,'Arun','M','English',78); 
-INSERT INTO Student VALUES (5,'Anjum','F','Hindi',83); 
-INSERT INTO Student VALUES (6,'Radhika','F','Biology',57); 
-INSERT INTO Student VALUES (7,'Harpreet','F','Physical Education',68); 
-SELECT*FROM Student; 
-ALTER TABLE Student 
-ADD (State VARCHAR(50),Phone int ); 
-SELECT*FROM Student; 
-ALTER TABLE Student 
-MODIFY COLUMN Marks VARCHAR(3); 
-ALTER TABLE Student 
-RENAME COLUMN RollNo To EnrollmentNo; 
-SELECT*FROM Student; 
-ALTER TABLE Student 
-DROP COLUMN Marks; 
-SELECT*FROM Student; 
-ALTER TABLE Student 
-RENAME To Student_info; 
-TRUNCATE TABLE Student_info; 
-desc Student_info; 
-SELECT*FROM Student; 
-DROP TABLE Student_info; 
-desc Student_info;
+-- 1. Create table
+CREATE TABLE Student (
+  RollNo NUMBER PRIMARY KEY,
+  Name VARCHAR2(100),
+  Gender VARCHAR2(20),
+  Subject VARCHAR2(30),
+  Marks NUMBER(3)
+);
+
+INSERT INTO Student VALUES (1,'Vaibhav','M','Mathematics',100);
+INSERT INTO Student VALUES (2,'Vishal','M','Physics',79);
+INSERT INTO Student VALUES (3,'Saumya','F','Chemistry',95);
+INSERT INTO Student VALUES (4,'Arun','M','English',78);
+INSERT INTO Student VALUES (5,'Anjum','F','Hindi',83);
+INSERT INTO Student VALUES (6,'Radhika','F','Biology',57);
+INSERT INTO Student VALUES (7,'Harpreet','F','Physical Education',68);
+
+SELECT * FROM Student;
+
+ALTER TABLE Student ADD State VARCHAR2(50);
+
+SELECT * FROM Student;
+ALTER TABLE Student MODIFY Marks VARCHAR2(3);
+
+ALTER TABLE Student RENAME COLUMN RollNo TO EnrollmentNo;
+
+SELECT * FROM Student;
+
+ALTER TABLE Student DROP COLUMN Marks;
+
+SELECT * FROM Student;
+
+ALTER TABLE Student RENAME TO Student_info;
+
+TRUNCATE TABLE Student_info;
+
+DESC Student_info;
+SELECT * FROM Student_info;
+
+DROP TABLE Student_info;
+DESC Student_info;
+
 
 #2
-PROGRAM 2:
 CREATE TABLE Customer (
   CustomerID INT PRIMARY KEY,
   CustomerName VARCHAR(50),
@@ -53,13 +60,10 @@ SELECT * FROM Customer;
 UPDATE Customer
 SET CustomerName = 'Nitin'
 WHERE Age = 22;
-UPDATE Customer
-SET CustomerName = 'Satyam',
-    Country = 'USA'
-WHERE CustomerID = 1;
 DELETE FROM Customer
 WHERE CustomerName = 'Naveen';
 SELECT * FROM Customer;
+
 
 #3
 CREATE DATABASE testDB;
@@ -99,13 +103,19 @@ TO DISK = 'D:\backups\testDB.bak';
 GO
 
 #4
-Create table electricity(cons_id varchar(4) primary key,c_name varchar(20),rent number(2) check
-(rent=20),unit number(6));
-insert into electricity values('E001','deepika',20,35);
-insert into electricity values('E002','varna',20,61);
-insert into electricity values('E003','arun',20,80);
-insert into electricity values('E004','rahul',20,90);
-alter table electricity add(total number(6,2));
+CREATE TABLE electricity(
+  cons_id VARCHAR2(4) PRIMARY KEY,
+  c_name VARCHAR2(20),
+  rent NUMBER(2) CHECK (rent = 20),
+  unit NUMBER(6)
+);
+
+INSERT INTO electricity VALUES('E001','deepika',20,35);
+INSERT INTO electricity VALUES('E002','varna',20,61);
+INSERT INTO electricity VALUES('E003','arun',20,80);
+INSERT INTO electricity VALUES('E004','rahul',20,90);
+ALTER TABLE electricity ADD total NUMBER(6,2);
+
 declare
 v_total electricity.total%type;
 cursor c is Select*from electricity;
@@ -175,6 +185,7 @@ EXEC addemployee(2, 'Mary', 30000);
 SELECT * FROM Employee;
 SELECT EmpName, Salary, annualsalary(Salary) AS Annual_Salary
 FROM Employee;
+
 
 #7
 CREATE TABLE products(
