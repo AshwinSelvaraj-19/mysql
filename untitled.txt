@@ -1,0 +1,287 @@
+#1
+CREATE TABLE Student( 
+RollNo int PRIMARY KEY, 
+Name VARCHAR(100), 
+Gender VARCHAR(20), 
+Subject VARCHAR(30), 
+Marks int(3) 
+); 
+desc Student; 
+INSERT INTO Student VALUES (1,'Vaibhav','M','Mathematics',100); 
+INSERT INTO Student VALUES (2,'Vishal','M','Physics',79); 
+INSERT INTO Student VALUES (3,'Saumya','F','Chemistry',95); 
+INSERT INTO Student VALUES (4,'Arun','M','English',78); 
+INSERT INTO Student VALUES (5,'Anjum','F','Hindi',83); 
+INSERT INTO Student VALUES (6,'Radhika','F','Biology',57); 
+INSERT INTO Student VALUES (7,'Harpreet','F','Physical Education',68); 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+ADD (State VARCHAR(50),Phone int ); 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+MODIFY COLUMN Marks VARCHAR(3); 
+ALTER TABLE Student 
+RENAME COLUMN RollNo To EnrollmentNo; 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+DROP COLUMN Marks; 
+SELECT*FROM Student; 
+ALTER TABLE Student 
+RENAME To Student_info; 
+TRUNCATE TABLE Student_info; 
+desc Student_info; 
+SELECT*FROM Student; 
+DROP TABLE Student_info; 
+desc Student_info;
+
+#2
+PROGRAM 2:
+CREATE TABLE Customer (
+  CustomerID INT PRIMARY KEY,
+  CustomerName VARCHAR(50),
+  LastName VARCHAR(50),
+  Country VARCHAR(50),
+  Age INT,
+  Phone VARCHAR(15)
+);
+INSERT INTO Customer VALUES (1, 'Shubham', 'Thakur', 'India', 23, '9865812670');
+INSERT INTO Customer VALUES (2, 'Aman', 'Chopra', 'Australia', 21, '8164439420');
+INSERT INTO Customer VALUES (3, 'Naveen', 'Tulasi', 'Srilanka', 24, '9130264875');
+INSERT INTO Customer VALUES (4, 'Aditya', 'Arpan', 'Austria', 21, '9510236478');
+INSERT INTO Customer VALUES (5, 'Nishant', 'Jain', 'Spain', 22, '9632587011');
+SELECT * FROM Customer;
+UPDATE Customer
+SET CustomerName = 'Nitin'
+WHERE Age = 22;
+UPDATE Customer
+SET CustomerName = 'Satyam',
+    Country = 'USA'
+WHERE CustomerID = 1;
+DELETE FROM Customer
+WHERE CustomerName = 'Naveen';
+SELECT * FROM Customer;
+
+#3
+CREATE DATABASE testDB;
+SHOW DATABASES;
+USE testDB;
+CREATE TABLE Customer(
+CustomerID INT PRIMARY KEY,
+CustomerName VARCHAR(50),
+LastName VARCHAR(50),
+Country VARCHAR(50),
+Age int(2),
+Phone VARCHAR(50)
+);
+desc Customer;
+INSERT INTO Customer VALUES (1,'Shubham','Thakur','India',23,9874563210);
+INSERT INTO Customer VALUES (2,'Aman','Chopra','Australia',21,8164439420);
+INSERT INTO Customer VALUES (3,'Naveen','Tulasi','Srilanka',24,9130264875);
+INSERT INTO Customer VALUES (4,'Aditya','Arpan','Austria',21,9510236478);
+INSERT INTO Customer VALUES (5,'Nishant Salchichas S.A','Jain','Spain',22,9632587011);
+SELECT*FROM Customer;
+UPDATE Customer
+SET CustomerName = 'Nitin'
+WHERE Age = 22;
+select * from Customer;
+UPDATE Customer
+SET CustomerName = 'Satyam',
+Country = 'USA'
+WHERE CustomerID = 1;
+select * from Customer;
+UPDATE Customer
+SET CustomerName = 'Shubham';
+Select * from Customer;
+SELECT * FROM Customer WHERE Age = 22;
+DELETE FROM Customer WHERE Name = 'Rithvik';
+BACKUP DATABASE testDB
+TO DISK = 'D:\backups\testDB.bak';
+GO
+
+#4
+Create table electricity(cons_id varchar(4) primary key,c_name varchar(20),rent number(2) check
+(rent=20),unit number(6));
+insert into electricity values('E001','deepika',20,35);
+insert into electricity values('E002','varna',20,61);
+insert into electricity values('E003','arun',20,80);
+insert into electricity values('E004','rahul',20,90);
+alter table electricity add(total number(6,2));
+declare
+v_total electricity.total%type;
+cursor c is Select*from electricity;
+begin
+for I in c loop
+if(i.unit<=40) then
+v_total:=i.rent;
+elsif (i.unit<=80) then
+v_total:=i.rent+(i.unit-40)*0.40;
+else
+v_total:=i.rent+(40*.40)+(i.unit-80)*1.40;
+end if;
+update electricity
+set total = v_total
+where cons_id = i.cons_id;
+end loop;
+end;
+/
+
+#5
+CREATE TABLE STUDENT (
+Name varchar (35),
+Age INT,
+Score INT,
+Grade CHAR (10)
+);
+CREATE TRIGGER sample_trigger
+BEFORE INSERT ON STUDENT
+FOR EACH ROW
+BEGIN
+IF :NEW.Score < 35 THEN
+ :NEW.Grade := 'FAIL';
+ELSE
+ :NEW.Grade := 'PASS';
+END IF;
+END;
+/
+INSERT INTO STUDENT VALUES('John',21,76,NULL);
+INSERT INTO STUDENT VALUES('Jane',20,24,NULL);
+INSERT INTO STUDENT VALUES('Rob',21,57,NULL);
+INSERT INTO STUDENT VALUES('Albert',19,87,NULL);
+Select*from STUDENT;
+
+#6
+CREATE TABLE Employee (
+ EmpID NUMBER PRIMARY KEY,
+ EmpName VARCHAR2(50),
+ Salary NUMBER(10,2)
+);
+CREATE OR REPLACE PROCEDURE addemployee (
+ p_id IN NUMBER,
+ p_name IN VARCHAR2,
+ p_salary IN NUMBER
+) AS
+BEGIN
+ INSERT INTO Employee (EmpID, EmpName, Salary)
+ VALUES (p_id, p_name, p_salary);
+END;
+/
+CREATE OR REPLACE FUNCTION annualsalary(p_salary IN NUMBER) RETURN NUMBER AS
+BEGIN
+ RETURN p_salary * 12;
+END;
+/
+EXEC addemployee(1, 'John', 25000);
+EXEC addemployee(2, 'Mary', 30000);
+SELECT * FROM Employee;
+SELECT EmpName, Salary, annualsalary(Salary) AS Annual_Salary
+FROM Employee;
+
+#7
+CREATE TABLE products(
+ product_id NUMBER,
+ product_name VARCHAR2(50)
+);
+DECLARE
+BEGIN
+ FOR i IN 1..10 LOOP
+ INSERT INTO products(product_id, product_name)
+ VALUES (i, 'product_' || i);
+ END LOOP;
+ COMMIT;
+END;
+/
+SELECT * FROM products;
+
+#8
+CREATE TABLE EMPLOYEE (
+ EmpNo NUMBER,
+ EmpName VARCHAR2(50),
+ Salary NUMBER,
+ Bonus NUMBER
+);
+INSERT INTO EMPLOYEE VALUES (101, 'Arun', 30000, NULL);
+INSERT INTO EMPLOYEE VALUES (102, 'Meena', 40000, NULL);
+INSERT INTO EMPLOYEE VALUES (103, 'Karthik', 25000, NULL);
+COMMIT;
+SET SERVEROUTPUT ON;
+BEGIN
+ UPDATE EMPLOYEE
+ SET Bonus = Salary * 0.10;
+ DBMS_OUTPUT.PUT_LINE('Bonus calculation completed.');
+END;
+/
+select * from EMPLOYEE;
+
+#9
+SET SERVEROUTPUT ON;
+DECLARE
+ num1 NUMBER := 20;
+ num2 NUMBER := 10;
+ sum_result NUMBER;
+ diff_result NUMBER;
+ mul_result NUMBER;
+ div_result NUMBER;
+BEGIN
+ sum_result := num1 + num2;
+ diff_result := num1 - num2;
+ mul_result := num1 * num2;
+ IF num2 != 0 THEN
+ div_result := num1 / num2;
+ ELSE
+ div_result := NULL;
+ END IF;
+ DBMS_OUTPUT.PUT_LINE('Number 1: ' || num1);
+ DBMS_OUTPUT.PUT_LINE('Number 2: ' || num2);
+ DBMS_OUTPUT.PUT_LINE('Addition: ' || sum_result);
+ DBMS_OUTPUT.PUT_LINE('Subtraction: ' || diff_result);
+ DBMS_OUTPUT.PUT_LINE('Multiplication: ' || mul_result);
+ DBMS_OUTPUT.PUT_LINE('Division: ' || div_result);
+END;
+/
+
+#10
+CREATE TABLE Project (
+ proj_id NUMBER PRIMARY KEY,
+ proj_name VARCHAR2(30),
+ location VARCHAR2(20)
+);
+CREATE TABLE Task (
+ task_id NUMBER,
+ proj_id NUMBER,
+ task_name VARCHAR2(30)
+);
+INSERT INTO Project VALUES (1, 'Banking System', 'Chennai');
+INSERT INTO Project VALUES (2, 'E-Commerce App', 'Bangalore');
+INSERT INTO Project VALUES (3, 'ERP Software', 'Chennai');
+INSERT INTO Project VALUES (4, 'Hospital Mgmt', 'Mumbai');
+INSERT INTO Task VALUES (201, 1, 'Design');
+INSERT INTO Task VALUES (202, 2, 'Testing');
+INSERT INTO Task VALUES (203, 3, 'Development');
+INSERT INTO Task VALUES (204, 5, 'Deployment');
+COMMIT;
+SELECT proj_id FROM Project
+UNION
+SELECT proj_id FROM Task;
+SELECT proj_id FROM Project
+MINUS
+SELECT proj_id FROM Task;
+
+#11
+CREATE TABLE Subject (
+SubjectID INT PRIMARY KEY,
+SubjectName VARCHAR2(50)
+);
+CREATE TABLE Question (
+QuestionID INT PRIMARY KEY,
+QuestionText VARCHAR2(255),
+SubjectID INT,
+FOREIGN KEY (SubjectID) REFERENCES Subject(SubjectID)
+);
+INSERT INTO Subject VALUES (1, 'DBMS');
+INSERT INTO Subject VALUES (2, 'Java');
+INSERT INTO Question VALUES (101, 'What is RDBMS?', 1);
+INSERT INTO Question VALUES (102, 'Explain Primary Key', 1);
+INSERT INTO Question VALUES (201, 'Explain OOP concepts', 2);
+SELECT q.QuestionID, q.QuestionText, s.SubjectName
+FROM Question q
+JOIN Subject s ON q.SubjectID = s.SubjectID;
